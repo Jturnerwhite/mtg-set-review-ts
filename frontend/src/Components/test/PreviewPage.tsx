@@ -1,16 +1,27 @@
-import { useAppDispatch, useAppSelector} from '../../Store/hooks';
+import { connect } from "react-redux";
+import { Dispatch } from "redux";
+import { CounterState } from "../../Store/States/Test.state";
+
 import {Actions} from '../../Store/Actions/Test.actions';
 
-const PreviewPage = () => {
-    const count = useAppSelector((state) => state.counter);
-    const dispatch = useAppDispatch();
+const PreviewPage = (props: any) => {
+    const count = props.state.counter;
+    const dispatch = props.dispatch;
+
     return (
         <div>
-            <div>Hello Page2 your total is {count.Value}</div>
+            <div>Hello Page2 your total is {count.value}</div>
             <button onClick={() => dispatch(Actions.Add())}>Add up +</button>
             <button onClick={() => dispatch(Actions.Subtract())}>Take one -</button>
         </div>
     )
 }
 
-export default PreviewPage;
+const defaultMapStateToProps = (state: CounterState): any => {
+    return { state: state };
+};
+const defaultMapDispatchToProps = (dispatch: Dispatch<any>): any => {
+    return { dispatch: dispatch };
+};
+
+export default connect(defaultMapStateToProps, defaultMapDispatchToProps) (PreviewPage);

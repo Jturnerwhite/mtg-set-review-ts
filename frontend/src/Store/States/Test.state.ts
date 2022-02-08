@@ -1,11 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 export interface CounterState {
-  Value: number;
+  value: number;
   test: string;
+  userAge: number;
 }
 
 export const initialState: CounterState = {
-  Value: 0,
+  value: 0,
   test: "this should not be changed",
+  userAge: 0,
 };

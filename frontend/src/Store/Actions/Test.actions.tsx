@@ -1,8 +1,9 @@
-import { Action } from "redux";
+import Action from "../action.interface";
 
 export const ACTION_TYPES = {
     ADD: 'ADD',
-    SUBTRACT: 'SUBTRACT'
+    SUBTRACT: 'SUBTRACT',
+    MODIFYVALUE: 'MODIFYVALUE'
 };
 
 export class Actions {
@@ -10,6 +11,10 @@ export class Actions {
         type: ACTION_TYPES.ADD,
     });
     public static Subtract = (): Action => ({
-        type: ACTION_TYPES.SUBTRACT
+        type: ACTION_TYPES.SUBTRACT,
     });
+    public static ModifyValue = (value: number) => ({
+        type: ACTION_TYPES.MODIFYVALUE,
+        payload: value
+    })
 }
