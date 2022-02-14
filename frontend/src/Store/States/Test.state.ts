@@ -1,5 +1,3 @@
-import { createSlice } from "@reduxjs/toolkit";
-
 export interface CounterState {
   value: number;
   test: string;

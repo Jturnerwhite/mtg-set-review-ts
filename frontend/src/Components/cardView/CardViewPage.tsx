@@ -23,9 +23,10 @@ const CardViewPage = () => {
                 });
                 setCards(mappedCards);
                 setCard(mappedCards[0])
-            })
+            });
         }
     },[]);
+
     return(
         <>
         <h1>{cards.length}</h1>
