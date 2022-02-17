@@ -1,50 +1,73 @@
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
-import { CounterState } from "../../Store/States/Test.state";
-import { useEffect, useState } from 'react';
-import { CardData } from './CardDataInterface'
+import { Actions } from "../../Store/Actions/Session.actions";
+import { useState } from 'react';
+import { SessionState } from "../../Store/States/Session.state";
+import { CardData } from "../../Interfaces/CardData";
+import { StateStructure } from "../../Store/store";
 
-const CardViewPage = () => {
-    let [cards, setCards] = useState(([] as Array<CardData>));
-    let [selectedCard, setCard] = useState(undefined as CardData | undefined);
+const CardViewPage = (props: any) => {
+    const sessionState = props.state.session;
+    // const dispatch = props.dispatch;
+    const firstThreeArray = sessionState.cards?.slice(0, 3) ?? [];
+    let [cardRating, setCardRating] = useState(0);
+    let [activeCard, setActiveCard] = useState(firstThreeArray[0]);
+    // let [nextCard, setNextCard] = useState();
+    // let [perviousCard, setPerviousCard] = useState()
     
-    useEffect(() => {
-        if(cards.length == 0) {
-            fetch("https://api.scryfall.com/cards/search?q=c%3Awhite+cmc%3D1")
-                .then(res => res.json())
-                .then(json => {
-                let mappedCards: Array<CardData> = json.data.map((singleCard: any) => {
-                    return ({
-                        id: singleCard.id,
-                        name: singleCard.name,
-                        image: singleCard.image_uris?.normal ?? ''
-                    } as CardData);
-                    
-                });
-                setCards(mappedCards);
-                setCard(mappedCards[0])
-            });
-        }
-    },[]);
+    
+    //get first card and check if it has been rated
+    //if not rated, display card and get rating
+    //if rated move to next card
+
+    const setRating = () => {
+        dispatch(Actions.SetCardRating({
+            id: activeCard.id,
+            image: activeCard.image,
+            cardName: activeCard.cardName,
+            rating: cardRating
+        } as CardData))
+        firstThreeArray.forEach((card:CardData, index: number) => {
+            if(card.id == activeCard.id){
+                if(firstThreeArray.length -1 == index){
+                    //finish page here
+                }else{
+                    setActiveCard(firstThreeArray[index +1])
+                }
+            }
+        })
+    }
 
     return(
         <>
-        <h1>{cards.length}</h1>
-        { selectedCard &&
+            <h1>number of cards: {props.state.session.cards?.length}</h1>
+            <select onChange = {(event) => setCardRating(parseInt(event.target.value)) }>
+                <option value='0'>0</option>
+                <option value='1'>1</option>
+                <option value='2'>2</option>
+                <option value='3'>3</option>
+                <option value='4'>4</option>
+                <option value='5'>5</option>
+                <option value='6'>6</option>
+                <option value='7'>7</option>
+                <option value='8'>8</option>
+                <option value='9'>9</option>
+                <option value='10'>10</option>
+            </select>
+            <button onClick={setRating} type='submit'>Submit</button>
             <div>
-                <p>{selectedCard.name}</p>
-                <img src={selectedCard.image}/>
+                <p>{activeCard.cardName}</p>
+                <img src={activeCard.image}/>
             </div>
-        }
         </>
     ) 
 }
 
-const defaultMapStateToProps = (state: CounterState): any => {
-    return { state: state };
+const defaultMapStateToProps = (state: StateStructure)=> {
+    return { state: state};
 };
-const defaultMapDispatchToProps = (dispatch: Dispatch<any>): any => {
+const defaultMapDispatchToProps = (dispatch: Dispatch<any>) => {
     return { dispatch: dispatch };
 };
-
+  
 export default connect(defaultMapStateToProps, defaultMapDispatchToProps) (CardViewPage);

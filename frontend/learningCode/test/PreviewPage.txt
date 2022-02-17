@@ -1,8 +1,8 @@
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
-import { CounterState } from "../../Store/States/Test.state";
+import { CounterState } from "../Test.state";
 
-import {Actions} from '../../Store/Actions/Test.actions';
+import {Actions} from '../Test.actions';
 
 const PreviewPage = (props: any) => {
     const count = props.state.counter;

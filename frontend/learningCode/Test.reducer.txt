@@ -1,6 +1,6 @@
-import Action from "../action.interface";
-import { ACTION_TYPES } from "../Actions/Test.actions";
-import { CounterState, initialState } from "../States/Test.state";
+import Action from "../src/Store/action.interface";
+import { ACTION_TYPES } from "./Test.actions";
+import { CounterState, initialState } from "./Test.state";
 
 export default function counterReducers(
   state: CounterState = initialState,
@@ -17,3 +17,8 @@ export default function counterReducers(
       return state;
   }
 }
+
+// using find method to find a card
+// let card = newState.cards?.find((card: CardData) => {
+//   return card.id == cardData.id
+// });

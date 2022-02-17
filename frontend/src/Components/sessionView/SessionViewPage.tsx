@@ -1,17 +1,21 @@
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import { SessionState } from "../../Store/States/Session.state";
-
+import { useNavigate } from 'react-router-dom'
 import { Actions } from '../../Store/Actions/Session.actions';
 import { useEffect, useState } from "react";
 import { SetData } from '../../Interfaces/SetData';
-import { CardData } from "../cardView/CardDataInterface";
+import { CardData } from "../../Interfaces/CardData";
+import { StateStructure } from "../../Store/store";
 
 
-const SessionViewPage = (props: any) => {
+const SessionViewPage = (props: {
+    state: StateStructure,
+    dispatch: Dispatch<any>
+}& {}) => {
     const sessionState = props.state.session;
     const dispatch = props.dispatch;
-
+    let navigate = useNavigate();
     let [name, setName] = useState('')
     let [sets, cardSets] = useState([] as Array<SetData>);
     let [setId, setCardId] = useState(0);
@@ -40,7 +44,7 @@ const SessionViewPage = (props: any) => {
             return({
                 id: card.id,
                 image: card.image_uris?.normal ?? '',
-                name: card.name,
+                cardName: card.name,
             } as CardData)
        })
        if (response.has_more) {
@@ -53,7 +57,7 @@ const SessionViewPage = (props: any) => {
     
     async function setSession () {
         let selectedSet = sets[setId];
-        let allCards =  await getCards(`https://api.scryfall.com/cards/search?order=set&q=set%3A${selectedSet.code}&unique=cards`)
+        let allCards =  await getCards(`https://api.scryfall.com/cards/search?order=set&q=set%3A${selectedSet.code}&unique=cards`);
 
         dispatch(Actions.SetSession({
             name: name,
@@ -61,11 +65,13 @@ const SessionViewPage = (props: any) => {
             cardSet: selectedSet,
             cards: allCards
         } as SessionState))
+
+        navigate('/cardView');
     }
 
     return (
         <div>
-            <form>
+            <form id='sessionForm'>
                 <label htmlFor='sessionName'>Session Name: {sessionState.name} </label>
                 <input type='text' id='sessionName' name='sessionName' onChange={(event) => setName(event.target.value)}></input>
                 <select onChange={(event) => setCardId(parseInt(event.target.value))}>
@@ -78,7 +84,7 @@ const SessionViewPage = (props: any) => {
     )
 }
 
-const defaultMapStateToProps = (state: SessionState): any => {
+const defaultMapStateToProps = (state: StateStructure): any => {
     return { state: state };
 };
 const defaultMapDispatchToProps = (dispatch: Dispatch<any>): any => {
