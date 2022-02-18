@@ -25,13 +25,15 @@ const updateCardRating = (
   state: SessionState,
   cardData: Partial<CardData>
 ): SessionState => {
-  let newState: SessionState = {
-    ...state,
-  };
-  newState.cards?.forEach((card) => {
-    if (card.id == cardData.id) {
-      card.rating = cardData.rating ?? 0;
-    }
-  });
+  let newState: SessionState = { ...state };
+  let cardIndex = newState.cards.findIndex((card) => card.id === cardData.id);
+  newState.cards = [
+    ...(state.cards as Array<CardData>).slice(0, cardIndex),
+    {
+      ...state.cards[cardIndex],
+      rating: cardData.rating,
+    } as CardData,
+    ...state.cards.slice(cardIndex + 1),
+  ];
   return newState;
 };

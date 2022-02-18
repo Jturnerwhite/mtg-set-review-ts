@@ -4,7 +4,7 @@ export interface SessionState {
   id: string;
   name: string;
   cardSet: any;
-  cards?: Array<CardData>;
+  cards: Array<CardData>;
 }
 export const initialState: SessionState = {
   id: "",

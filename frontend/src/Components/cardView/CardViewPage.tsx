@@ -1,8 +1,7 @@
 import { Actions } from "../../Store/Actions/Session.actions";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { connect } from "react-redux";
-import { Dispatch } from "redux";
-import { StateStructure } from "../../Store/store";
+import { useNavigate } from "react-router-dom";
 import { CardData } from "../../Interfaces/CardData";
 import {
   Props as DefaultProperties,
@@ -13,9 +12,9 @@ import {
 const CardViewPage = (props: DefaultProperties) => {
   const sessionState = props.state.session;
   const dispatch = props.dispatch;
-  const firstThreeArray = sessionState.cards?.slice(0, 3) ?? [];
+  let navigate = useNavigate();
   let [cardRating, setCardRating] = useState(0);
-  let [activeCard, setActiveCard] = useState(firstThreeArray[0]);
+  let [activeCard, setActiveCard] = useState(sessionState.cards[0]);
 
   const setRating = () => {
     dispatch(
@@ -26,39 +25,31 @@ const CardViewPage = (props: DefaultProperties) => {
         rating: cardRating,
       } as CardData)
     );
-    firstThreeArray.forEach((card: CardData, index: number) => {
-      if (card.id == activeCard.id) {
-        if (firstThreeArray.length - 1 == index) {
-          //finish page here
+    sessionState.cards.forEach((card: CardData, index: number) => {
+      if (card.id === activeCard.id) {
+        if (sessionState.cards.length - 1 === index) {
+            navigate("/finish");
         } else {
-          setActiveCard(firstThreeArray[index + 1]);
+          setActiveCard(sessionState.cards[index + 1]);
+          setCardRating(0)
         }
       }
     });
   };
-
+  let options = <></>; 
+  for (let i = 0; i <= 10; i++){
+      options = <>{options}<option value={i}>{i}</option></>;
+  }
   return (
     <>
       <h1>number of cards: {props.state.session.cards?.length}</h1>
-      <select onChange={(event) => setCardRating(parseInt(event.target.value))}>
-        <option value="0">0</option>
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4">4</option>
-        <option value="5">5</option>
-        <option value="6">6</option>
-        <option value="7">7</option>
-        <option value="8">8</option>
-        <option value="9">9</option>
-        <option value="10">10</option>
+      <select value={cardRating} id='ratingSelect' onChange={(event) => setCardRating(parseInt(event.target.value))}>
+        {options}
       </select>
-      <button onClick={setRating} type="submit">
-        Submit
-      </button>
+      <button onClick={setRating} type="submit">Submit</button>
       <div>
         <p>{activeCard.cardName}</p>
-        <img src={activeCard.image} />
+        <img alt={activeCard.cardName} src={activeCard.image} />
       </div>
     </>
   );
