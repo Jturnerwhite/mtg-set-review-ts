@@ -28,7 +28,7 @@ const updateCardRating = (
   let newState: SessionState = { ...state };
   let cardIndex = newState.cards.findIndex((card) => card.id === cardData.id);
   newState.cards = [
-    ...(state.cards as Array<CardData>).slice(0, cardIndex),
+    ...state.cards.slice(0, cardIndex),
     {
       ...state.cards[cardIndex],
       rating: cardData.rating,

@@ -8,7 +8,7 @@ import {
 } from "react-router-dom";
 import CardViewPage from './Components/cardView/CardViewPage';
 import SessionViewPage from './Components/sessionView/SessionViewPage';
-import StartSessionPage from './Components/session/StartSessionPage';
+// import StartSessionPage from './Components/session/StartSessionPage';
 import FinishViewPage from './Components/finishView/FinishViewPage';
 
 
@@ -21,7 +21,6 @@ function App() {
           <button><Link to='/sessionView'>Start Session</Link></button>
         </nav>
         <Routes>
-          <Route path='/' element={<StartSessionPage/>}/>
           <Route path='/cardView' element={<CardViewPage/>}/>
           <Route path='/sessionView' element={<SessionViewPage/>}/>
           <Route path='/finish' element={<FinishViewPage/>}/>
