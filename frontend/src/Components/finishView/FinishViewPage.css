@@ -1,0 +1,9 @@
+.card-info div {
+  display: inline-block;
+}
+#test h2,
+p {
+  display: inline-block;
+  padding: 0.5rem;
+  font-weight: bolder;
+}

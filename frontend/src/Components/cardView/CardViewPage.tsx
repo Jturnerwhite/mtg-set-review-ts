@@ -1,50 +1,61 @@
+import { Actions } from "../../Store/Actions/Session.actions";
+import { useState } from "react";
 import { connect } from "react-redux";
-import { Dispatch } from "redux";
-import { CounterState } from "../../Store/States/Test.state";
-import { useEffect, useState } from 'react';
-import { CardData } from './CardDataInterface'
+import { useNavigate } from "react-router-dom";
+import { CardData } from "../../Interfaces/CardData";
+import {
+  Props as DefaultProperties,
+  defaultMapStateToProps,
+  defaultMapDispatchToProps,
+} from "../../Interfaces/DefaultConnections";
 
-const CardViewPage = () => {
-    let [cards, setCards] = useState(([] as Array<CardData>));
-    let [selectedCard, setCard] = useState(undefined as CardData | undefined);
-    
-    useEffect(() => {
-        if(cards.length == 0) {
-            fetch("https://api.scryfall.com/cards/search?q=c%3Awhite+cmc%3D1")
-                .then(res => res.json())
-                .then(json => {
-                let mappedCards: Array<CardData> = json.data.map((singleCard: any) => {
-                    return ({
-                        id: singleCard.id,
-                        name: singleCard.name,
-                        image: singleCard.image_uris?.normal ?? ''
-                    } as CardData);
-                    
-                });
-                setCards(mappedCards);
-                setCard(mappedCards[0])
-            });
+const CardViewPage = (props: DefaultProperties) => {
+  const sessionState = props.state.session;
+  const dispatch = props.dispatch;
+  let navigate = useNavigate();
+  let [cardRating, setCardRating] = useState(0);
+  let [activeCard, setActiveCard] = useState(sessionState.cards[0]);
+
+  const setRating = () => {
+    dispatch(
+      Actions.SetCardRating({
+        id: activeCard.id,
+        image: activeCard.image,
+        cardName: activeCard.cardName,
+        rating: cardRating,
+      } as CardData)
+    );
+    sessionState.cards.forEach((card: CardData, index: number) => {
+      if (card.id === activeCard.id) {
+        if (sessionState.cards.length - 1 === index) {
+            navigate("/finish");
+        } else {
+          setActiveCard(sessionState.cards[index + 1]);
+          setCardRating(0)
         }
-    },[]);
-
-    return(
-        <>
-        <h1>{cards.length}</h1>
-        { selectedCard &&
-            <div>
-                <p>{selectedCard.name}</p>
-                <img src={selectedCard.image}/>
-            </div>
-        }
-        </>
-    ) 
-}
-
-const defaultMapStateToProps = (state: CounterState): any => {
-    return { state: state };
+      }
+    });
+  };
+  let options = <></>; 
+  for (let i = 0; i <= 10; i++){
+      options = <>{options}<option value={i}>{i}</option></>;
+  }
+  return (
+    <>
+      <h1>number of cards: {props.state.session.cards?.length}</h1>
+      <select value={cardRating} id='ratingSelect' onChange={(event) => setCardRating(parseInt(event.target.value))}>
+        {options}
+      </select>
+      <button onClick={setRating} type="submit">Submit</button>
+      <div>
+        <p>{activeCard.cardName}</p>
+        <img alt={activeCard.cardName} src={activeCard.image} />
+      </div>
+    </>
+  );
 };
-const defaultMapDispatchToProps = (dispatch: Dispatch<any>): any => {
-    return { dispatch: dispatch };
-};
 
-export default connect(defaultMapStateToProps, defaultMapDispatchToProps) (CardViewPage);
+export default connect(
+  defaultMapStateToProps,
+  defaultMapDispatchToProps
+)(CardViewPage);

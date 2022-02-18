@@ -22,5 +22,5 @@
   },
   "include": [
     "src"
-  ]
+, "learningCode/test", "learningCode/Test.state.ts", "learningCode/Test.reducer.ts", "learningCode/Test.actions.tsx"  ]
 }

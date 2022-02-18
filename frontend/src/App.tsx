@@ -6,10 +6,10 @@ import {
   Route,
   Link
 } from "react-router-dom";
-import MainPage from './Components/test/MainPage';
-import PreviewPage from './Components/test/PreviewPage';
 import CardViewPage from './Components/cardView/CardViewPage';
 import SessionViewPage from './Components/sessionView/SessionViewPage';
+// import StartSessionPage from './Components/session/StartSessionPage';
+import FinishViewPage from './Components/finishView/FinishViewPage';
 
 
 function App() {
@@ -17,18 +17,14 @@ function App() {
     <Router>
       <div className="App">
         <nav>
-          <button><Link to='/'>Main</Link></button>
-          <button><Link to='/page2'>Preview</Link></button>
-          <button><Link to='/cardView'>View Card</Link></button>
-          <button><Link to='/sessionView'>View Session</Link></button>
+          <button><Link to='/'>Home</Link></button>
+          <button><Link to='/sessionView'>Start Session</Link></button>
         </nav>
         <Routes>
-          <Route path='/' element={<MainPage/>}/>
-          <Route path='/page2' element={<PreviewPage/>}/>
           <Route path='/cardView' element={<CardViewPage/>}/>
           <Route path='/sessionView' element={<SessionViewPage/>}/>
+          <Route path='/finish' element={<FinishViewPage/>}/>
         </Routes>
-        <p>Do Things!</p>
       </div>
     </Router>
   );

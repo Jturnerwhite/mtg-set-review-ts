@@ -1,10 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
-import counterReducers from "./Reducers/Test.reducer";
 import sessionReducers from "./Reducers/Session.reducer";
+import { SessionState } from "./States/Session.state";
+
+export interface StateStructure {
+  session: SessionState;
+}
 
 const store = configureStore({
   reducer: {
-    counter: counterReducers,
     session: sessionReducers,
   },
 });
