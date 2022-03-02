@@ -9,7 +9,7 @@ import {
   defaultMapDispatchToProps,
 } from "../../Interfaces/DefaultConnections";
 
-const CardViewPage = (props: DefaultProperties) => {
+const ReviewViewPage = (props: DefaultProperties) => {
   const sessionState = props.state.session;
   const dispatch = props.dispatch;
   let navigate = useNavigate();
@@ -20,18 +20,18 @@ const CardViewPage = (props: DefaultProperties) => {
     () => {
       let newActiveCard = getNextCard();
       if (!newActiveCard) {
-        navigate("/finish");
+        navigate(`/about/${sessionState.id}`);
       } else {
         setActiveCard(newActiveCard);
         setCardRating(0);
       }
-    }, [props.state.session]
+    }, [sessionState]
   );
-    const getNextCard = () => {
-      let newActiveCard = sessionState.cards.find((card: CardData) => {
-        return (card.rating === undefined)
+  const getNextCard = () => {
+    let newActiveCard = sessionState.cards.find((card: CardData) => {
+      return (card.rating === undefined)
       });
-      return newActiveCard;
+    return newActiveCard;
   }
  
   const setRating = () => {
@@ -43,7 +43,6 @@ const CardViewPage = (props: DefaultProperties) => {
         rating: cardRating,
       } as CardData)
     );
-
   };
   let options = <></>; 
   for (let i = 0; i <= 10; i++){
@@ -51,6 +50,8 @@ const CardViewPage = (props: DefaultProperties) => {
   }
   return (
     <>
+      <h1>Session: {sessionState.name}</h1>
+      <img style={{width: '100px', height: '100px'}}src={sessionState.icon}/>
       <h1>number of cards: {sessionState.cards.length}</h1>
       <select value={cardRating} id='ratingSelect' onChange={(event) => setCardRating(parseInt(event.target.value))}>
         {options}
@@ -67,4 +68,4 @@ const CardViewPage = (props: DefaultProperties) => {
 export default connect(
   defaultMapStateToProps,
   defaultMapDispatchToProps
-)(CardViewPage);
+)(ReviewViewPage);
