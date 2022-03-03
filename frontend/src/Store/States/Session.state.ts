@@ -1,14 +1,13 @@
-import { CardData } from "../../Interfaces/CardData";
+import { Session } from "../../Interfaces/SessionData";
 
-export interface SessionState {
-  id: string;
-  name: string;
-  cardSet: any;
-  cards: Array<CardData>;
-}
+export interface SessionState extends Session {}
+
 export const initialState: SessionState = {
   id: "",
   name: "",
   cardSet: {},
   cards: [],
+  icon: "",
+  created: "",
+  lastUpdate: "",
 };

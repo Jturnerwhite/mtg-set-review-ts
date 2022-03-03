@@ -9,18 +9,16 @@ import {
 const FinishViewPage = (props: DefaultProperties) => {
   const cardArray = props.state.session.cards;
 
-let card = cardArray.map(card => (
-        <div id='test' key={card.id}>
-            <h2>{card.cardName}</h2>
-            <p>{card.rating},</p>
-        </div>
-        ));
-
   return (
     <>
         <div className='rating-container'>
             <div className='card-info'>
-                {card}
+                {cardArray.map(card => (
+                  <div id='test' key={card.id}>
+                      <h2>{card.cardName}</h2>
+                      <p>{card.rating},</p>
+                  </div>
+                ))}
             </div>
         </div>
     </>

@@ -1,6 +1,6 @@
 import { connect } from "react-redux";
 import { SessionState } from "../../Store/States/Session.state";
-import { useNavigate } from "react-router-dom";
+import { useNavigate} from "react-router-dom";
 import { Actions } from "../../Store/Actions/Session.actions";
 import { useEffect, useState } from "react";
 import { SetData } from "../../Interfaces/SetData";
@@ -36,12 +36,20 @@ const SessionViewPage = (props: DefaultProperties) => {
                 id: singleSet.id,
                 name: singleSet.name,
                 code: singleSet.code,
+                icon: singleSet.icon_svg_uri
               } as SetData;
             });
           cardSets(mappedSets);
         });
     }
   }, []);
+
+  useEffect(() => {
+    if(sessionState.id){
+      navigate(`/session/${sessionState.id}`);
+    }
+  },[sessionState.id]);
+
   async function getCards(endPoint: string): Promise<Array<CardData>> {
     let response = await fetch(endPoint).then((res) => res.json());
     let cards: Array<CardData> = response.data.map((card: any) => {
@@ -60,6 +68,7 @@ const SessionViewPage = (props: DefaultProperties) => {
 
   async function setSession() {
     let selectedSet = sets[setId];
+    let setIcon = sets[setId].icon;
     let allCards = await getCards(
       `https://api.scryfall.com/cards/search?order=set&q=set%3A${selectedSet.code}&unique=cards`
     );
@@ -70,14 +79,14 @@ const SessionViewPage = (props: DefaultProperties) => {
         id: new Date().valueOf().toString(),
         cardSet: selectedSet,
         cards: allCards.slice(0, 3),
+        icon: setIcon,
+        created: new Date().toDateString(),
       } as SessionState)
     );
-
-    navigate("/cardView");
   }
 
   return (
-    <div>
+    <>
       <form id="sessionForm">
         <label htmlFor="sessionName">Session Name:</label>
         <input
@@ -85,7 +94,6 @@ const SessionViewPage = (props: DefaultProperties) => {
           id="sessionName"
           name="sessionName"
           onChange={(event) => setName(event.target.value)}
-          required
         ></input>
         <select onChange={(event) => setCardId(parseInt(event.target.value))}>
           {sets.map((set, index) => (
@@ -99,7 +107,7 @@ const SessionViewPage = (props: DefaultProperties) => {
         Submit
       </button>
       <button>Cancel</button>
-    </div>
+    </>
   );
 };
 

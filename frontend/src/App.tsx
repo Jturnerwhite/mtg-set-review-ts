@@ -1,15 +1,14 @@
-import React from 'react';
 import './App.css';
 import {
   BrowserRouter as Router,
   Routes,
   Route,
-  Link
+  Link,
 } from "react-router-dom";
-import CardViewPage from './Components/cardView/CardViewPage';
 import SessionViewPage from './Components/sessionView/SessionViewPage';
-// import StartSessionPage from './Components/session/StartSessionPage';
-import FinishViewPage from './Components/finishView/FinishViewPage';
+import AboutViewPage from './Components/aboutView/AboutViewPage';
+import HomeViewPage from './Components/homeView/HomeViewPage';
+import ReviewViewPage from './Components/reviewView/ReviewViewPage';
 
 
 function App() {
@@ -18,12 +17,12 @@ function App() {
       <div className="App">
         <nav>
           <button><Link to='/'>Home</Link></button>
-          <button><Link to='/sessionView'>Start Session</Link></button>
         </nav>
         <Routes>
-          <Route path='/cardView' element={<CardViewPage/>}/>
+          <Route path='/' element={<HomeViewPage/>}/>
           <Route path='/sessionView' element={<SessionViewPage/>}/>
-          <Route path='/finish' element={<FinishViewPage/>}/>
+          <Route path='/about/:sessionid' element={<AboutViewPage/>}/>
+          <Route path='/session/:sessionid' element={<ReviewViewPage/>}/>
         </Routes>
       </div>
     </Router>
