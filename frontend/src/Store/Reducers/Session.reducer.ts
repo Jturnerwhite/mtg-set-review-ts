@@ -9,7 +9,6 @@ export default function sessionReducers(
   action: Action
 ): SessionState {
   let newState: SessionState = state ?? initialState;
-
   switch (action.type) {
     case ACTION_TYPES.SET_SESSION:
       newState = {
@@ -20,6 +19,9 @@ export default function sessionReducers(
         icon: action.payload.icon,
         created: action.payload.created,
       };
+      break;
+    case ACTION_TYPES.UNSELECT_SESSION:
+      newState = initialState;
       break;
     case ACTION_TYPES.SET_CARD_RATING:
       newState = updateCardRating(newState, action.payload);

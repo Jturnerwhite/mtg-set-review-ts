@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import {
@@ -8,6 +8,7 @@ import {
 } from "../../Interfaces/DefaultConnections";
 import SessionListView from '../sessionList/SessionListView';
 import LocalStorageService from '../../Services/LocalStorageService';
+import { Actions } from "../../Store/Actions/Session.actions";
 
 const HomeViewPage = (props: DefaultProperties) => {
   let [localStateArray, setlocalStateArray] = useState(LocalStorageService.GetSessions());
@@ -15,6 +16,14 @@ const HomeViewPage = (props: DefaultProperties) => {
   const deleteSession = (sessionId: string) => {
     setlocalStateArray(LocalStorageService.DeleteSession(sessionId));
   }
+
+  useEffect(() =>{
+    if(props.state.session.id){
+      props.dispatch(
+        Actions.UnselectSession()
+      )
+    }
+  },[]);
 
   return (
     <>

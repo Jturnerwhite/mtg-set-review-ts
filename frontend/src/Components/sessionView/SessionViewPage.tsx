@@ -43,6 +43,13 @@ const SessionViewPage = (props: DefaultProperties) => {
         });
     }
   }, []);
+
+  useEffect(() => {
+    if(sessionState.id){
+      navigate(`/session/${sessionState.id}`);
+    }
+  },[sessionState.id]);
+
   async function getCards(endPoint: string): Promise<Array<CardData>> {
     let response = await fetch(endPoint).then((res) => res.json());
     let cards: Array<CardData> = response.data.map((card: any) => {
@@ -76,7 +83,6 @@ const SessionViewPage = (props: DefaultProperties) => {
         created: new Date().toDateString(),
       } as SessionState)
     );
-    navigate(`/session/${sessionState.id}`);
   }
 
   return (
