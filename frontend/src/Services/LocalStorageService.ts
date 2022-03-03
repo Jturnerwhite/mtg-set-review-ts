@@ -40,15 +40,5 @@ class LocalStorageService {
       localStorage.setItem("Session", JSON.stringify([input]));
     }
   };
-  public static GetFromStorage = (): SessionState | undefined => {
-    const getLocalState = localStorage.getItem("Session");
-    if (!getLocalState) {
-      return undefined;
-    }
-    const localState = JSON.parse(getLocalState);
-    return {
-      ...localState,
-    } as SessionState;
-  };
 }
 export default LocalStorageService;

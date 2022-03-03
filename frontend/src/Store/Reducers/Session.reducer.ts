@@ -8,8 +8,7 @@ export default function sessionReducers(
   state: SessionState | undefined,
   action: Action
 ): SessionState {
-  let newState: SessionState =
-    state ?? LocalStorageService.GetFromStorage() ?? initialState;
+  let newState: SessionState = state ?? initialState;
 
   switch (action.type) {
     case ACTION_TYPES.SET_SESSION:
@@ -27,9 +26,6 @@ export default function sessionReducers(
       break;
     case ACTION_TYPES.SELECT_SESSION:
       return LocalStorageService.GetSelectSession(action.payload) ?? newState;
-    case "@@INIT":
-      newState = LocalStorageService.GetFromStorage() ?? initialState;
-      break;
     default:
       return newState;
   }
