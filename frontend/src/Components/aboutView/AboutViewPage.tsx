@@ -11,6 +11,7 @@ import { CardData } from "../../Interfaces/CardData";
 
 const AboutViewPage = (props: DefaultProperties) => {
   const [isInit, setInit] = useState(false);
+  const sessionState = props.state.session;
   const cardArray = props.state.session.cards;
   let ratedCards = 0;
   let checkForRating = false;
@@ -45,10 +46,12 @@ const AboutViewPage = (props: DefaultProperties) => {
 
   return (
     <>
-      <h1>About: {props.state.session.name}</h1>
-      <img style={{width: '100px', height: '100px'}}src={props.state.session.icon}/>
-      <h2>Set: {props.state.session.cardSet.name}</h2>
-      <h2>Cards: {ratedCards}/{props.state.session.cards.length} rated</h2>
+      <h1>About: {sessionState.name}</h1>
+      <img style={{width: '100px', height: '100px'}}src={sessionState.icon}/>
+      <h2>Set: {sessionState.cardSet.name}</h2>
+      <h2>Cards: {ratedCards}/{sessionState.cards.length} rated</h2>
+      <p>Created: {sessionState.created}</p>
+      <p>Updated: {sessionState.lastUpdate === undefined? 'n/a' : sessionState.lastUpdate}</p>
       <div className='rating-container'>
           <div className='card-info'>
               {cardArray && cardArray.map(card => (
@@ -60,12 +63,12 @@ const AboutViewPage = (props: DefaultProperties) => {
           </div>
           <div>
             {checkForRating && 
-              <Link to={`/session/${props.state.session.id}`}>
+              <Link to={`/session/${sessionState.id}`}>
                 <h2>Continue Rating</h2>
               </Link>}
           </div>
           <div>
-            {isInit && !props.state.session.id && <p>session not found</p>}
+            {isInit && !sessionState.id && <p>session not found</p>}
           </div>
       </div>
     </>

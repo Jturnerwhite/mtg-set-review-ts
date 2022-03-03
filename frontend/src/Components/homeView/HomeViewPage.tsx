@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import {
@@ -12,7 +12,7 @@ import LocalStorageService from '../../Services/LocalStorageService';
 const HomeViewPage = (props: DefaultProperties) => {
   let [localStateArray, setlocalStateArray] = useState(LocalStorageService.GetSessions());
 
-  const deleteSession = (sessionId: any) => {
+  const deleteSession = (sessionId: string) => {
     setlocalStateArray(LocalStorageService.DeleteSession(sessionId));
   }
 

@@ -5,7 +5,6 @@ import {
   Route,
   Link,
 } from "react-router-dom";
-import CardViewPage from './Components/cardView/CardViewPage';
 import SessionViewPage from './Components/sessionView/SessionViewPage';
 import AboutViewPage from './Components/aboutView/AboutViewPage';
 import HomeViewPage from './Components/homeView/HomeViewPage';
@@ -21,7 +20,6 @@ function App() {
         </nav>
         <Routes>
           <Route path='/' element={<HomeViewPage/>}/>
-          <Route path='/cardView' element={<CardViewPage/>}/>
           <Route path='/sessionView' element={<SessionViewPage/>}/>
           <Route path='/about/:sessionid' element={<AboutViewPage/>}/>
           <Route path='/session/:sessionid' element={<ReviewViewPage/>}/>
