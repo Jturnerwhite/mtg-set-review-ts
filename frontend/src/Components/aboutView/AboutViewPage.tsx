@@ -1,34 +1,33 @@
 import { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { useParams, Link, useNavigate } from "react-router-dom";
-import { Actions } from "../../Store/Actions/Session.actions";
 import {
   Props as DefaultProperties,
   defaultMapStateToProps,
   defaultMapDispatchToProps,
 } from "../../Interfaces/DefaultConnections";
 import { CardData } from "../../Interfaces/CardData";
+import { Session } from "../../Interfaces/SessionData";
 
 const AboutViewPage = (props: DefaultProperties) => {
-  const [isInit, setInit] = useState(false);
-  const sessionState = props.state.session;
-  const cardArray = props.state.session.cards;
   let ratedCards = 0;
   let checkForRating = false;
   let navigate = useNavigate();
   let {sessionid} = useParams();
+  let isInit = false;
+  let sessionState: Session | undefined;
+  let cardArray: Array<CardData> = [];
+ 
+  if(sessionid){
+    isInit = true;
+    sessionState = props.state.sessions.find(session => session.id === sessionid);
+    if(sessionState?.cards){
+      cardArray = sessionState.cards;
+    }
+  } else {
+    navigate('/home');
+  }
 
-  useEffect(() => {
-    if(sessionid){
-      setInit(true);
-      props.dispatch(
-        Actions.SelectSession(sessionid)
-        )
-      } else {
-        navigate('/home');
-      }
-    },[]);
-    
     const checkRating = (cardArray: Array<CardData>) => {
       cardArray.find((card) => {
         if(card.rating === undefined){
@@ -46,31 +45,35 @@ const AboutViewPage = (props: DefaultProperties) => {
 
   return (
     <>
-      <h1>About: {sessionState.name}</h1>
-      <img style={{width: '100px', height: '100px'}}src={sessionState.icon}/>
-      <h2>Set: {sessionState.cardSet.name}</h2>
-      <h2>Cards: {ratedCards}/{sessionState.cards.length} rated</h2>
-      <p>Created: {sessionState.created}</p>
-      <p>Updated: {sessionState.lastUpdate === undefined? 'n/a' : sessionState.lastUpdate}</p>
-      <div className='rating-container'>
-          <div className='card-info'>
-              {cardArray && cardArray.map(card => (
-                <div id='test' key={card.id}>
-                  <h2>{card.cardName}</h2>
-                  <p>{(card.rating === undefined) ? 'no rating' : card.rating}</p>
-                </div>
-              ))}
-          </div>
-          <div>
-            {checkForRating && 
-              <Link to={`/session/${sessionState.id}`}>
-                <h2>Continue Rating</h2>
-              </Link>}
-          </div>
-          <div>
-            {isInit && !sessionState.id && <p>session not found</p>}
-          </div>
-      </div>
+    {sessionState && 
+      <>
+        <h1>About: {sessionState.name}</h1>
+        <img style={{width: '100px', height: '100px'}}src={sessionState.icon}/>
+        <h2>Set: {sessionState.cardSet.name}</h2>
+        <h2>Cards: {ratedCards}/{sessionState.cards.length} rated</h2>
+        <p>Created: {sessionState.created}</p>
+        <p>Updated: {sessionState.lastUpdate === undefined? 'n/a' : sessionState.lastUpdate}</p>
+        <div className='rating-container'>
+            <div className='card-info'>
+                {cardArray && cardArray.map(card => (
+                  <div id='test' key={card.id}>
+                    <h2>{card.cardName}</h2>
+                    <p>{(card.rating === undefined) ? 'no rating' : card.rating}</p>
+                  </div>
+                ))}
+            </div>
+            <div>
+              {checkForRating && 
+                <Link to={`/session/${sessionState.id}`}>
+                  <h2>Continue Rating</h2>
+                </Link>}
+            </div>
+        </div>
+      </>
+    }{isInit && !sessionState &&  
+    <div className='rating-container'>
+       <p>session not found</p>
+    </div>}
     </>
   );
 };

@@ -1,6 +1,5 @@
 import { connect } from "react-redux";
-import { SessionState } from "../../Store/States/Session.state";
-import { useNavigate} from "react-router-dom";
+import { Link, useNavigate} from "react-router-dom";
 import { Actions } from "../../Store/Actions/Session.actions";
 import { useEffect, useState } from "react";
 import { SetData } from "../../Interfaces/SetData";
@@ -10,11 +9,12 @@ import {
   defaultMapStateToProps,
   defaultMapDispatchToProps,
 } from "../../Interfaces/DefaultConnections";
+import { Session } from "../../Interfaces/SessionData";
 
 const SessionViewPage = (props: DefaultProperties) => {
-  const sessionState = props.state.session;
   const dispatch = props.dispatch;
   let navigate = useNavigate();
+  let [sessionId, setSessionId] = useState(undefined as string | undefined);
   let [name, setName] = useState("");
   let [sets, cardSets] = useState([] as Array<SetData>);
   let [setId, setCardId] = useState(0);
@@ -45,10 +45,10 @@ const SessionViewPage = (props: DefaultProperties) => {
   }, []);
 
   useEffect(() => {
-    if(sessionState.id){
-      navigate(`/session/${sessionState.id}`);
+    if(sessionId !== undefined && props.state.sessions.find(session => session.id === sessionId)){
+      navigate(`/session/${sessionId}`);
     }
-  },[sessionState.id]);
+  },[props.state.sessions]);
 
   async function getCards(endPoint: string): Promise<Array<CardData>> {
     let response = await fetch(endPoint).then((res) => res.json());
@@ -69,20 +69,19 @@ const SessionViewPage = (props: DefaultProperties) => {
   async function setSession() {
     let selectedSet = sets[setId];
     let setIcon = sets[setId].icon;
-    let allCards = await getCards(
-      `https://api.scryfall.com/cards/search?order=set&q=set%3A${selectedSet.code}&unique=cards`
-    );
-
+    let id = new Date().valueOf().toString();
+    let allCards = await getCards(`https://api.scryfall.com/cards/search?order=set&q=set%3A${selectedSet.code}&unique=cards`);
+    setSessionId(id);
     dispatch(
       Actions.SetSession({
         name: name,
-        id: new Date().valueOf().toString(),
+        id: id,
         cardSet: selectedSet,
         cards: allCards.slice(0, 3),
         icon: setIcon,
         created: new Date().toDateString(),
-      } as SessionState)
-    );
+      } as Session)
+      );
   }
 
   return (
@@ -106,7 +105,7 @@ const SessionViewPage = (props: DefaultProperties) => {
       <button onClick={setSession} type="submit">
         Submit
       </button>
-      <button>Cancel</button>
+      <button><Link to='/'>Cancel</Link></button>
     </>
   );
 };

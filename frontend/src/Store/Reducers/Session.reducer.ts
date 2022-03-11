@@ -1,56 +1,95 @@
 import { CardData } from "../../Interfaces/CardData";
 import Action from "../action.interface";
 import { ACTION_TYPES } from "../Actions/Session.actions";
-import { SessionState, initialState } from "../States/Session.state";
+
 import LocalStorageService from "../../Services/LocalStorageService";
+import { Session } from "../../Interfaces/SessionData";
+import { initialState } from "../States/Session.state";
 
 export default function sessionReducers(
-  state: SessionState | undefined,
+  state: Array<Session> | undefined,
   action: Action
-): SessionState {
-  let newState: SessionState = state ?? initialState;
+): Array<Session> {
+  let localStorageArray = LocalStorageService.GetSessions();
+  let newState = state ?? initialState;
+  if (localStorageArray && !state) {
+    newState = localStorageArray;
+  }
   switch (action.type) {
     case ACTION_TYPES.SET_SESSION:
-      newState = {
-        name: action.payload.name,
-        id: action.payload.id,
-        cardSet: action.payload.cardSet,
-        cards: action.payload.cards,
-        icon: action.payload.icon,
-        created: action.payload.created,
-      };
+      newState = [
+        ...newState,
+        {
+          name: action.payload.name,
+          id: action.payload.id,
+          cardSet: action.payload.cardSet,
+          cards: action.payload.cards,
+          icon: action.payload.icon,
+          created: action.payload.created,
+        } as Session,
+      ];
       break;
     case ACTION_TYPES.UNSELECT_SESSION:
       newState = initialState;
       break;
     case ACTION_TYPES.SET_CARD_RATING:
-      newState = updateCardRating(newState, action.payload);
+      newState = updateCardRating(
+        newState,
+        action.payload.cardData,
+        action.payload.sessionId
+      );
       break;
-    case ACTION_TYPES.SELECT_SESSION:
-      return LocalStorageService.GetSelectSession(action.payload) ?? newState;
+    case ACTION_TYPES.DELETE_SESSION:
+      newState = deleteSession(newState, action.payload);
+      break;
     default:
       return newState;
   }
-  if (newState.id) {
+  if (newState.length > 0) {
     LocalStorageService.SetStorageArray(newState);
   }
+
   return newState;
 }
 
+const deleteSession = (
+  state: Array<Session>,
+  sessionId: string
+): Array<Session> => {
+  let sessionIndex = state.findIndex((session) => session.id === sessionId);
+  console.log(sessionIndex);
+  if (sessionIndex >= 0) {
+    return [...state.slice(0, sessionIndex), ...state.slice(sessionIndex + 1)];
+  }
+  return state;
+};
+
 const updateCardRating = (
-  state: SessionState,
-  cardData: Partial<CardData>
-): SessionState => {
-  let newState: SessionState = { ...state };
-  let cardIndex = newState.cards.findIndex((card) => card.id === cardData.id);
-  newState.lastUpdate = new Date().toDateString();
-  newState.cards = [
-    ...state.cards.slice(0, cardIndex),
-    {
-      ...state.cards[cardIndex],
-      rating: cardData.rating,
-    } as CardData,
-    ...state.cards.slice(cardIndex + 1),
-  ];
-  return newState;
+  state: Array<Session>,
+  cardData: Partial<CardData>,
+  sessionId: string
+): Array<Session> => {
+  let sessionIndex = state.findIndex((session) => session.id === sessionId);
+
+  if (sessionIndex >= 0) {
+    let session = state[sessionIndex];
+    let cardIndex = session.cards.findIndex((card) => card.id === cardData.id);
+    return [
+      ...state.slice(0, sessionIndex),
+      {
+        ...session,
+        cards: [
+          ...session.cards.slice(0, cardIndex),
+          {
+            ...session.cards[cardIndex],
+            rating: cardData.rating,
+          } as CardData,
+          ...session.cards.slice(cardIndex + 1),
+        ],
+        lastUpdate: new Date().toDateString(),
+      } as Session,
+      ...state.slice(sessionIndex + 1),
+    ];
+  }
+  return state;
 };

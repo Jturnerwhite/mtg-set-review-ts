@@ -15,15 +15,12 @@ const HomeViewPage = (props: DefaultProperties) => {
 
   const deleteSession = (sessionId: string) => {
     setlocalStateArray(LocalStorageService.DeleteSession(sessionId));
-  }
-
-  useEffect(() =>{
-    if(props.state.session.id){
+    if(sessionId){
       props.dispatch(
-        Actions.UnselectSession()
+        Actions.DeleteSession(sessionId)
       )
     }
-  },[]);
+  }
 
   return (
     <>

@@ -1,14 +1,14 @@
 import { configureStore } from "@reduxjs/toolkit";
+import { Session } from "../Interfaces/SessionData";
 import sessionReducers from "./Reducers/Session.reducer";
-import { SessionState } from "./States/Session.state";
 
 export interface StateStructure {
-  session: SessionState;
+  sessions: Array<Session>;
 }
 
 const store = configureStore({
   reducer: {
-    session: sessionReducers,
+    sessions: sessionReducers,
   },
 });
 
