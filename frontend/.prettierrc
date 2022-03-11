@@ -1,0 +1,13 @@
+{
+  "trailingComma": "all",
+  "singleQuote": true,
+  "printWidth": 100,
+  "overrides": [
+    {
+      "files": ".github/PULL_REQUEST_TEMPLATE",
+      "options": {
+        "parser": "markdown"
+      }
+    }
+  ]
+}

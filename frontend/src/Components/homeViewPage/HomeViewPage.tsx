@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import {
@@ -6,34 +6,36 @@ import {
   defaultMapStateToProps,
   defaultMapDispatchToProps,
 } from "../../Interfaces/DefaultConnections";
-import SessionListView from '../sessionList/SessionListView';
-import LocalStorageService from '../../Services/LocalStorageService';
+import SessionListView from "../SessionListView/SessionListView";
+import LocalStorageService from "../../Services/LocalStorageService";
 import { Actions } from "../../Store/Actions/Session.actions";
 
 const HomeViewPage = (props: DefaultProperties) => {
-  let [localStateArray, setlocalStateArray] = useState(LocalStorageService.GetSessions());
+  let [localStateArray, setlocalStateArray] = useState(
+    LocalStorageService.GetSessions()
+  );
 
   const deleteSession = (sessionId: string) => {
     setlocalStateArray(LocalStorageService.DeleteSession(sessionId));
-  }
-
-  useEffect(() =>{
-    if(props.state.session.id){
-      props.dispatch(
-        Actions.UnselectSession()
-      )
+    if (sessionId) {
+      props.dispatch(Actions.DeleteSession(sessionId));
     }
-  },[]);
+  };
 
   return (
     <>
-      <div className='rating-container'>
+      <div className="rating-container">
         <h1>Session List:</h1>
-        <div className='card-info'>
-          <SessionListView sessions={localStateArray} onDelete={deleteSession}/>
+        <div className="card-info">
+          <SessionListView
+            sessions={localStateArray}
+            onDelete={deleteSession}
+          />
         </div>
         {!localStateArray && <p>No Sessions Created</p>}
-        <button><Link to='/sessionView'>Start Session</Link></button>
+        <button>
+          <Link to="/sessionView">Start Session</Link>
+        </button>
       </div>
     </>
   );
