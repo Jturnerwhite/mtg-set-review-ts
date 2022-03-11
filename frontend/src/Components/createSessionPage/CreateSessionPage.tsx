@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import { Link, useNavigate} from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Actions } from "../../Store/Actions/Session.actions";
 import { useEffect, useState } from "react";
 import { SetData } from "../../Interfaces/SetData";
@@ -36,7 +36,7 @@ const CreateSessionPage = (props: DefaultProperties) => {
                 id: singleSet.id,
                 name: singleSet.name,
                 code: singleSet.code,
-                icon: singleSet.icon_svg_uri
+                icon: singleSet.icon_svg_uri,
               } as SetData;
             });
           cardSets(mappedSets);
@@ -45,10 +45,13 @@ const CreateSessionPage = (props: DefaultProperties) => {
   }, []);
 
   useEffect(() => {
-    if(sessionId !== undefined && props.state.sessions.find(session => session.id === sessionId)){
+    if (
+      sessionId !== undefined &&
+      props.state.sessions.find((session) => session.id === sessionId)
+    ) {
       navigate(`/session/${sessionId}`);
     }
-  },[props.state.sessions]);
+  }, [props.state.sessions]);
 
   async function getCards(endPoint: string): Promise<Array<CardData>> {
     let response = await fetch(endPoint).then((res) => res.json());
@@ -70,7 +73,9 @@ const CreateSessionPage = (props: DefaultProperties) => {
     let selectedSet = sets[setId];
     let setIcon = sets[setId].icon;
     let id = new Date().valueOf().toString();
-    let allCards = await getCards(`https://api.scryfall.com/cards/search?order=set&q=set%3A${selectedSet.code}&unique=cards`);
+    let allCards = await getCards(
+      `https://api.scryfall.com/cards/search?order=set&q=set%3A${selectedSet.code}&unique=cards`
+    );
     setSessionId(id);
     dispatch(
       Actions.SetSession({
@@ -105,7 +110,9 @@ const CreateSessionPage = (props: DefaultProperties) => {
       <button onClick={setSession} type="submit">
         Submit
       </button>
-      <button><Link to='/'>Cancel</Link></button>
+      <button>
+        <Link to="/">Cancel</Link>
+      </button>
     </>
   );
 };
