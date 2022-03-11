@@ -12,6 +12,7 @@ export default function sessionReducers(
 ): Array<Session> {
   let localStorageArray = LocalStorageService.GetSessions();
   let newState = state ?? initialState;
+
   if (localStorageArray && !state) {
     newState = localStorageArray;
   }
@@ -29,14 +30,11 @@ export default function sessionReducers(
         } as Session,
       ];
       break;
-    case ACTION_TYPES.UNSELECT_SESSION:
-      newState = initialState;
-      break;
     case ACTION_TYPES.SET_CARD_RATING:
       newState = updateCardRating(
         newState,
-        action.payload.cardData,
-        action.payload.sessionId
+        action.payload.sessionId,
+        action.payload.cardData
       );
       break;
     case ACTION_TYPES.DELETE_SESSION:
@@ -48,7 +46,6 @@ export default function sessionReducers(
   if (newState.length > 0) {
     LocalStorageService.SetStorageArray(newState);
   }
-
   return newState;
 }
 
@@ -57,7 +54,6 @@ const deleteSession = (
   sessionId: string
 ): Array<Session> => {
   let sessionIndex = state.findIndex((session) => session.id === sessionId);
-  console.log(sessionIndex);
   if (sessionIndex >= 0) {
     return [...state.slice(0, sessionIndex), ...state.slice(sessionIndex + 1)];
   }
@@ -66,8 +62,8 @@ const deleteSession = (
 
 const updateCardRating = (
   state: Array<Session>,
-  cardData: Partial<CardData>,
-  sessionId: string
+  sessionId: string,
+  cardData: Partial<CardData>
 ): Array<Session> => {
   let sessionIndex = state.findIndex((session) => session.id === sessionId);
 

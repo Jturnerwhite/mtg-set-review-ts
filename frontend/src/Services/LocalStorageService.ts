@@ -5,7 +5,7 @@ class LocalStorageService {
     let sessionArray = JSON.parse(localStorage.getItem("Session")!);
     return sessionArray;
   };
-  public static DeleteSession = (sessionId: any) => {
+  public static DeleteSession = (sessionId: string) => {
     let sessionArray = JSON.parse(localStorage.getItem("Session")!);
     let newArray = sessionArray.filter(
       (session: { id: string | undefined }) => session.id !== sessionId

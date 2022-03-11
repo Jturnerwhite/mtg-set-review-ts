@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import {
@@ -6,7 +6,7 @@ import {
   defaultMapStateToProps,
   defaultMapDispatchToProps,
 } from "../../Interfaces/DefaultConnections";
-import SessionListView from '../sessionList/SessionListView';
+import SessionListView from '../SessionListView/SessionListView';
 import LocalStorageService from '../../Services/LocalStorageService';
 import { Actions } from "../../Store/Actions/Session.actions";
 

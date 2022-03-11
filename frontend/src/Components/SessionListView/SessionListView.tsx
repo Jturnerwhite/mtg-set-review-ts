@@ -38,7 +38,6 @@ const SessionListView = (props: {sessions: Array<Session>, onDelete: Function}) 
   )
 }
 
-
 export default connect(
   defaultMapStateToProps,
   defaultMapDispatchToProps

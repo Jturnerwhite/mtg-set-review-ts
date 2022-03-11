@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import {
@@ -9,17 +8,15 @@ import {
 import { CardData } from "../../Interfaces/CardData";
 import { Session } from "../../Interfaces/SessionData";
 
-const AboutViewPage = (props: DefaultProperties) => {
+const SessionDetailsPage = (props: DefaultProperties) => {
   let ratedCards = 0;
   let checkForRating = false;
   let navigate = useNavigate();
   let {sessionid} = useParams();
-  let isInit = false;
   let sessionState: Session | undefined;
   let cardArray: Array<CardData> = [];
  
   if(sessionid){
-    isInit = true;
     sessionState = props.state.sessions.find(session => session.id === sessionid);
     if(sessionState?.cards){
       cardArray = sessionState.cards;
@@ -70,10 +67,12 @@ const AboutViewPage = (props: DefaultProperties) => {
             </div>
         </div>
       </>
-    }{isInit && !sessionState &&  
+    }
+    {!sessionState &&  
     <div className='rating-container'>
-       <p>session not found</p>
-    </div>}
+      <p>session not found</p>
+    </div>
+    }
     </>
   );
 };
@@ -81,4 +80,4 @@ const AboutViewPage = (props: DefaultProperties) => {
 export default connect(
   defaultMapStateToProps,
   defaultMapDispatchToProps
-)(AboutViewPage);
+)(SessionDetailsPage);

@@ -10,7 +10,7 @@ import {
 } from "../../Interfaces/DefaultConnections";
 import { Session } from "../../Interfaces/SessionData";
 
-const ReviewViewPage = (props: DefaultProperties) => {
+const CardReviewPage = (props: DefaultProperties) => {
   let {sessionid} = useParams();
   const session: Session | undefined = props.state.sessions.find(session => session.id === sessionid)!;
   const dispatch = props.dispatch;
@@ -38,12 +38,13 @@ const ReviewViewPage = (props: DefaultProperties) => {
  
   const setRating = () => {
     dispatch(
-      Actions.SetCardRating({
-        id: activeCard.id,
-        image: activeCard.image,
-        cardName: activeCard.cardName,
-        rating: cardRating,
-      } as CardData, session.id)
+      Actions.SetCardRating(session.id,
+        {
+          id: activeCard.id,
+          image: activeCard.image,
+          cardName: activeCard.cardName,
+          rating: cardRating,
+        } as CardData,)
     );
   };
 
@@ -71,5 +72,5 @@ const ReviewViewPage = (props: DefaultProperties) => {
 export default connect(
   defaultMapStateToProps,
   defaultMapDispatchToProps
-)(ReviewViewPage);
+)(CardReviewPage);
  

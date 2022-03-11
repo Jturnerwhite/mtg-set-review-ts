@@ -11,7 +11,7 @@ import {
 } from "../../Interfaces/DefaultConnections";
 import { Session } from "../../Interfaces/SessionData";
 
-const SessionViewPage = (props: DefaultProperties) => {
+const CreateSessionPage = (props: DefaultProperties) => {
   const dispatch = props.dispatch;
   let navigate = useNavigate();
   let [sessionId, setSessionId] = useState(undefined as string | undefined);
@@ -81,7 +81,7 @@ const SessionViewPage = (props: DefaultProperties) => {
         icon: setIcon,
         created: new Date().toDateString(),
       } as Session)
-      );
+    );
   }
 
   return (
@@ -113,4 +113,4 @@ const SessionViewPage = (props: DefaultProperties) => {
 export default connect(
   defaultMapStateToProps,
   defaultMapDispatchToProps
-)(SessionViewPage);
+)(CreateSessionPage);
