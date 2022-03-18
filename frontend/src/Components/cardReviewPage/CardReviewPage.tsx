@@ -1,19 +1,20 @@
-import { Actions } from "../../Store/Actions/Session.actions";
-import { useEffect, useState } from "react";
-import { connect } from "react-redux";
-import { useParams, useNavigate } from "react-router-dom";
-import { CardData } from "../../Interfaces/CardData";
+import { Actions } from '../../Store/Actions/Session.actions';
+import { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
+import { useParams, useNavigate } from 'react-router-dom';
+import { CardData } from '../../Interfaces/CardData';
 import {
   Props as DefaultProperties,
   defaultMapStateToProps,
   defaultMapDispatchToProps,
-} from "../../Interfaces/DefaultConnections";
-import { Session } from "../../Interfaces/SessionData";
+} from '../../Interfaces/DefaultConnections';
+import { Session } from '../../Interfaces/SessionData';
+import { CardReviewPageStyle } from './CardReviewPage.style';
 
 const CardReviewPage = (props: DefaultProperties) => {
   let { sessionid } = useParams();
   const session: Session | undefined = props.state.sessions.find(
-    (session) => session.id === sessionid
+    (session) => session.id === sessionid,
   )!;
   const dispatch = props.dispatch;
   let navigate = useNavigate();
@@ -43,7 +44,7 @@ const CardReviewPage = (props: DefaultProperties) => {
         image: activeCard.image,
         cardName: activeCard.cardName,
         rating: cardRating,
-      } as CardData)
+      } as CardData),
     );
   };
 
@@ -58,28 +59,27 @@ const CardReviewPage = (props: DefaultProperties) => {
   }
   return (
     <>
-      <h1>Session: {session.name}</h1>
-      <img style={{ width: "100px", height: "100px" }} src={session.icon} />
-      <h1>number of cards: {session.cards.length}</h1>
-      <select
-        value={cardRating}
-        id="ratingSelect"
-        onChange={(event) => setCardRating(parseInt(event.target.value))}
-      >
-        {options}
-      </select>
-      <button onClick={setRating} type="submit">
-        Submit
-      </button>
-      <p>{activeCard.cardName}</p>
-      <div>
-        <img alt={activeCard.cardName} src={activeCard.image} />
-      </div>
+      <CardReviewPageStyle>
+        <h1>Session: {session.name}</h1>
+        <img style={{ width: '100px', height: '100px' }} src={session.icon} />
+        <h1>number of cards: {session.cards.length}</h1>
+        <select
+          value={cardRating}
+          id="ratingSelect"
+          onChange={(event) => setCardRating(parseInt(event.target.value))}
+        >
+          {options}
+        </select>
+        <button onClick={setRating} type="submit">
+          Submit
+        </button>
+        <p>{activeCard.cardName}</p>
+        <div>
+          <img alt={activeCard.cardName} src={activeCard.image} />
+        </div>
+      </CardReviewPageStyle>
     </>
   );
 };
 
-export default connect(
-  defaultMapStateToProps,
-  defaultMapDispatchToProps
-)(CardReviewPage);
+export default connect(defaultMapStateToProps, defaultMapDispatchToProps)(CardReviewPage);
