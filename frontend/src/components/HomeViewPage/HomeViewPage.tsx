@@ -10,6 +10,7 @@ import SessionListView from '../SessionListView/SessionListView';
 import LocalStorageService from '../../services/LocalStorageService';
 import { Actions } from '../../store/actions/session.actions';
 import { HomeViewPageStyle } from './HomeViewPage.style';
+import { MaterialCard } from '../_common/style/MaterialCard';
 
 const HomeViewPage = (props: DefaultProperties) => {
   let [localStateArray, setlocalStateArray] = useState(LocalStorageService.GetSessions());
@@ -24,7 +25,7 @@ const HomeViewPage = (props: DefaultProperties) => {
   return (
     <>
       <HomeViewPageStyle>
-        <div className="rating-container">
+        <MaterialCard>
           <h1>session List:</h1>
           <div className="card-info">
             <SessionListView sessions={localStateArray} onDelete={deletesession} />
@@ -33,7 +34,7 @@ const HomeViewPage = (props: DefaultProperties) => {
           <button>
             <Link to="/sessionView">Start session</Link>
           </button>
-        </div>
+        </MaterialCard>
       </HomeViewPageStyle>
     </>
   );

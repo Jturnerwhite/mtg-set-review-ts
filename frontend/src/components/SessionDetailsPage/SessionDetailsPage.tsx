@@ -8,6 +8,7 @@ import {
 import { CardData } from '../../interfaces/CardData';
 import { Session } from '../../interfaces/SessionData';
 import { SessionDetailsStyle } from './SessionDetailsPage.style';
+import { MaterialCard } from '../_common/style/MaterialCard';
 
 const SessionDetailsPage = (props: DefaultProperties) => {
   let ratedCards = 0;
@@ -44,43 +45,45 @@ const SessionDetailsPage = (props: DefaultProperties) => {
   return (
     <>
       <SessionDetailsStyle>
-        {sessionState && (
-          <>
-            <h1>About: {sessionState.name}</h1>
-            <img style={{ width: '100px', height: '100px' }} src={sessionState.icon} />
-            <h2>Set: {sessionState.cardSet.name}</h2>
-            <h2>
-              Cards: {ratedCards}/{sessionState.cards.length} rated
-            </h2>
-            <p>Created: {sessionState.created}</p>
-            <p>
-              Updated: {sessionState.lastUpdate === undefined ? 'n/a' : sessionState.lastUpdate}
-            </p>
+        <MaterialCard>
+          {sessionState && (
+            <>
+              <h1>About: {sessionState.name}</h1>
+              <img style={{ width: '100px', height: '100px' }} src={sessionState.icon} />
+              <h2>Set: {sessionState.cardSet.name}</h2>
+              <h2>
+                Cards: {ratedCards}/{sessionState.cards.length} rated
+              </h2>
+              <p>Created: {sessionState.created}</p>
+              <p>
+                Updated: {sessionState.lastUpdate === undefined ? 'n/a' : sessionState.lastUpdate}
+              </p>
+              <div className="rating-container">
+                <div className="card-info">
+                  {cardArray &&
+                    cardArray.map((card) => (
+                      <div id="test" key={card.id}>
+                        <h2>{card.cardName}</h2>
+                        <p>{card.rating === undefined ? 'no rating' : card.rating}</p>
+                      </div>
+                    ))}
+                </div>
+                <div>
+                  {checkForRating && (
+                    <Link to={`/session/${sessionState.id}`}>
+                      <h2>Continue Rating</h2>
+                    </Link>
+                  )}
+                </div>
+              </div>
+            </>
+          )}
+          {!sessionState && (
             <div className="rating-container">
-              <div className="card-info">
-                {cardArray &&
-                  cardArray.map((card) => (
-                    <div id="test" key={card.id}>
-                      <h2>{card.cardName}</h2>
-                      <p>{card.rating === undefined ? 'no rating' : card.rating}</p>
-                    </div>
-                  ))}
-              </div>
-              <div>
-                {checkForRating && (
-                  <Link to={`/session/${sessionState.id}`}>
-                    <h2>Continue Rating</h2>
-                  </Link>
-                )}
-              </div>
+              <p>session not found</p>
             </div>
-          </>
-        )}
-        {!sessionState && (
-          <div className="rating-container">
-            <p>session not found</p>
-          </div>
-        )}
+          )}
+        </MaterialCard>
       </SessionDetailsStyle>
     </>
   );

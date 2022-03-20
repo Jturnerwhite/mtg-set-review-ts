@@ -11,6 +11,7 @@ import {
 } from '../../interfaces/DefaultConnections';
 import { Session } from '../../interfaces/SessionData';
 import { CreateSessionPageStyle } from './CreateSessionPage.Style';
+import { MaterialCard } from '../_common/style/MaterialCard';
 
 const CreateSessionPage = (props: DefaultProperties) => {
   const dispatch = props.dispatch;
@@ -90,8 +91,8 @@ const CreateSessionPage = (props: DefaultProperties) => {
   }
 
   return (
-    <>
-      <CreateSessionPageStyle>
+    <CreateSessionPageStyle>
+      <MaterialCard>
         <form id="sessionForm">
           <label htmlFor="sessionName">session Name:</label>
           <input
@@ -114,8 +115,8 @@ const CreateSessionPage = (props: DefaultProperties) => {
         <button>
           <Link to="/">Cancel</Link>
         </button>
-      </CreateSessionPageStyle>
-    </>
+      </MaterialCard>
+    </CreateSessionPageStyle>
   );
 };
 
