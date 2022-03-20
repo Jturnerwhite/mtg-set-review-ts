@@ -7,7 +7,7 @@ import {
 } from '../../Interfaces/DefaultConnections';
 import { CardData } from '../../Interfaces/CardData';
 import { Session } from '../../Interfaces/SessionData';
-import { SessionDetialsStyle } from './SessionDetialsPage.style';
+import { SessionDetailsStyle } from './SessionDetailsPage.style';
 
 const SessionDetailsPage = (props: DefaultProperties) => {
   let ratedCards = 0;
@@ -43,7 +43,7 @@ const SessionDetailsPage = (props: DefaultProperties) => {
 
   return (
     <>
-      <SessionDetialsStyle>
+      <SessionDetailsStyle>
         {sessionState && (
           <>
             <h1>About: {sessionState.name}</h1>
@@ -81,7 +81,7 @@ const SessionDetailsPage = (props: DefaultProperties) => {
             <p>session not found</p>
           </div>
         )}
-      </SessionDetialsStyle>
+      </SessionDetailsStyle>
     </>
   );
 };

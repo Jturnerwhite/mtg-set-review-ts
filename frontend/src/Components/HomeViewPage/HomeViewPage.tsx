@@ -6,7 +6,7 @@ import {
   defaultMapStateToProps,
   defaultMapDispatchToProps,
 } from '../../Interfaces/DefaultConnections';
-import SessionListView from '../sessionListView/SessionListView';
+import SessionListView from '../SessionListView/SessionListView';
 import LocalStorageService from '../../Services/LocalStorageService';
 import { Actions } from '../../Store/Actions/Session.actions';
 import { HomeViewPageStyle } from './HomeViewPage.style';
