@@ -1,6 +1,6 @@
-import { Dispatch } from "redux";
-import Action from "../Store/action.interface";
-import { StateStructure } from "../Store/store";
+import { Dispatch } from 'redux';
+import Action from '../store/action.interface';
+import { StateStructure } from '../store/store';
 
 export interface Props {
   state: StateStructure;

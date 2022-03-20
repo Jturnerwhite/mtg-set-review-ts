@@ -1,6 +1,6 @@
 // import { connect } from "react-redux";
 // import { Dispatch } from "redux";
-// // import { Actions } from "../../Store/Actions/Session.actions";
+// // import { Actions } from "../../Store/Actions/session.actions";
 // import { Actions } from '../../Store/Actions/Rating.actions';
 // import { useEffect, useState } from 'react';
 // import { CardData } from './CardDataInterface'

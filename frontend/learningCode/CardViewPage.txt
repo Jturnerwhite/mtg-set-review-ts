@@ -3,7 +3,7 @@ import { Dispatch } from "redux";
 import { Actions } from "../Test.actions";
 import { CounterState } from "../Test.state";
 
-const SessionPage = (props: any) => {
+const sessionPage = (props: any) => {
     const counterState = props.state.counter;
     const dispatch = props.dispatch;
 
@@ -15,7 +15,7 @@ const SessionPage = (props: any) => {
     return (
         <div>
             <div>{counterState.userAge}</div>
-            <div>I am SessionPage {counterState.value}</div>
+            <div>I am sessionPage {counterState.value}</div>
             <input type='text' placeholder='what is your age?' onChange={(event) => getNumber(event.target.value)}></input>
         </div>
     )
@@ -28,4 +28,4 @@ const defaultMapDispatchToProps = (dispatch: Dispatch<any>): any => {
     return { dispatch: dispatch };
 };
 
-export default connect(defaultMapStateToProps, defaultMapDispatchToProps) (SessionPage);
+export default connect(defaultMapStateToProps, defaultMapDispatchToProps) (sessionPage);

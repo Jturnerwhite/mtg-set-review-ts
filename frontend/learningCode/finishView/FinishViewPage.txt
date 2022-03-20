@@ -4,7 +4,7 @@ import {
   Props as DefaultProperties,
   defaultMapStateToProps,
   defaultMapDispatchToProps,
-} from "../../Interfaces/DefaultConnections";
+} from "../../interfaces/DefaultConnections";
 
 const FinishViewPage = (props: DefaultProperties) => {
   const cardArray = props.state.session.cards;

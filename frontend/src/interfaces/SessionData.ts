@@ -1,4 +1,4 @@
-import { CardData } from "./CardData";
+import { CardData } from './CardData';
 
 export interface Session {
   id: string;

@@ -1,21 +1,21 @@
 import { connect } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import { Actions } from '../../Store/Actions/Session.actions';
+import { Actions } from '../../store/actions/session.actions';
 import { useEffect, useState } from 'react';
-import { SetData } from '../../Interfaces/SetData';
-import { CardData } from '../../Interfaces/CardData';
+import { SetData } from '../../interfaces/SetData';
+import { CardData } from '../../interfaces/CardData';
 import {
   Props as DefaultProperties,
   defaultMapStateToProps,
   defaultMapDispatchToProps,
-} from '../../Interfaces/DefaultConnections';
-import { Session } from '../../Interfaces/SessionData';
+} from '../../interfaces/DefaultConnections';
+import { Session } from '../../interfaces/SessionData';
 import { CreateSessionPageStyle } from './CreateSessionPage.Style';
 
 const CreateSessionPage = (props: DefaultProperties) => {
   const dispatch = props.dispatch;
   let navigate = useNavigate();
-  let [sessionId, setSessionId] = useState(undefined as string | undefined);
+  let [sessionId, setsessionId] = useState(undefined as string | undefined);
   let [name, setName] = useState('');
   let [sets, cardSets] = useState([] as Array<SetData>);
   let [setId, setCardId] = useState(0);
@@ -69,16 +69,16 @@ const CreateSessionPage = (props: DefaultProperties) => {
     return cards;
   }
 
-  async function setSession() {
+  async function setsession() {
     let selectedSet = sets[setId];
     let setIcon = sets[setId].icon;
     let id = new Date().valueOf().toString();
     let allCards = await getCards(
       `https://api.scryfall.com/cards/search?order=set&q=set%3A${selectedSet.code}&unique=cards`,
     );
-    setSessionId(id);
+    setsessionId(id);
     dispatch(
-      Actions.SetSession({
+      Actions.Setsession({
         name: name,
         id: id,
         cardSet: selectedSet,
@@ -93,7 +93,7 @@ const CreateSessionPage = (props: DefaultProperties) => {
     <>
       <CreateSessionPageStyle>
         <form id="sessionForm">
-          <label htmlFor="sessionName">Session Name:</label>
+          <label htmlFor="sessionName">session Name:</label>
           <input
             type="text"
             id="sessionName"
@@ -108,7 +108,7 @@ const CreateSessionPage = (props: DefaultProperties) => {
             ))}
           </select>
         </form>
-        <button onClick={setSession} type="submit">
+        <button onClick={setsession} type="submit">
           Submit
         </button>
         <button>

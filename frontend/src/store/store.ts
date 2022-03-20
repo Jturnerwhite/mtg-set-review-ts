@@ -1,6 +1,6 @@
-import { configureStore } from "@reduxjs/toolkit";
-import { Session } from "../Interfaces/SessionData";
-import sessionReducers from "./Reducers/Session.reducer";
+import { configureStore } from '@reduxjs/toolkit';
+import { Session } from '../interfaces/SessionData';
+import sessionReducers from './reducers/session.reducer';
 
 export interface StateStructure {
   sessions: Array<Session>;

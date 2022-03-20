@@ -4,9 +4,9 @@ import {
   Props as DefaultProperties,
   defaultMapStateToProps,
   defaultMapDispatchToProps,
-} from '../../Interfaces/DefaultConnections';
-import { CardData } from '../../Interfaces/CardData';
-import { Session } from '../../Interfaces/SessionData';
+} from '../../interfaces/DefaultConnections';
+import { CardData } from '../../interfaces/CardData';
+import { Session } from '../../interfaces/SessionData';
 import { SessionDetailsStyle } from './SessionDetailsPage.style';
 
 const SessionDetailsPage = (props: DefaultProperties) => {

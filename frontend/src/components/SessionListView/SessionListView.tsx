@@ -1,11 +1,11 @@
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { CardData } from '../../Interfaces/CardData';
+import { CardData } from '../../interfaces/CardData';
 import {
   defaultMapStateToProps,
   defaultMapDispatchToProps,
-} from '../../Interfaces/DefaultConnections';
-import { Session } from '../../Interfaces/SessionData';
+} from '../../interfaces/DefaultConnections';
+import { Session } from '../../interfaces/SessionData';
 import { SessionListViewPageStyle } from './SessionListViewPage.style';
 
 const SessionListView = (props: { sessions: Array<Session>; onDelete: Function }) => {

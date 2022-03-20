@@ -5,19 +5,19 @@ import {
   Props as DefaultProperties,
   defaultMapStateToProps,
   defaultMapDispatchToProps,
-} from '../../Interfaces/DefaultConnections';
+} from '../../interfaces/DefaultConnections';
 import SessionListView from '../SessionListView/SessionListView';
-import LocalStorageService from '../../Services/LocalStorageService';
-import { Actions } from '../../Store/Actions/Session.actions';
+import LocalStorageService from '../../services/LocalStorageService';
+import { Actions } from '../../store/actions/session.actions';
 import { HomeViewPageStyle } from './HomeViewPage.style';
 
 const HomeViewPage = (props: DefaultProperties) => {
   let [localStateArray, setlocalStateArray] = useState(LocalStorageService.GetSessions());
 
-  const deleteSession = (sessionId: string) => {
-    setlocalStateArray(LocalStorageService.DeleteSession(sessionId));
+  const deletesession = (sessionId: string) => {
+    setlocalStateArray(LocalStorageService.Deletesession(sessionId));
     if (sessionId) {
-      props.dispatch(Actions.DeleteSession(sessionId));
+      props.dispatch(Actions.Deletesession(sessionId));
     }
   };
 
@@ -25,13 +25,13 @@ const HomeViewPage = (props: DefaultProperties) => {
     <>
       <HomeViewPageStyle>
         <div className="rating-container">
-          <h1>Session List:</h1>
+          <h1>session List:</h1>
           <div className="card-info">
-            <SessionListView sessions={localStateArray} onDelete={deleteSession} />
+            <SessionListView sessions={localStateArray} onDelete={deletesession} />
           </div>
-          {!localStateArray && <p>No Sessions Created</p>}
+          {!localStateArray && <p>No sessions Created</p>}
           <button>
-            <Link to="/sessionView">Start Session</Link>
+            <Link to="/sessionView">Start session</Link>
           </button>
         </div>
       </HomeViewPageStyle>

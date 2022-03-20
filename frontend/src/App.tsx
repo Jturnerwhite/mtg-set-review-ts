@@ -1,9 +1,9 @@
 import './App.css';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import CreateSessionPage from './Components/CreateSessionPage/CreateSessionPage';
-import SessionDetailsPage from './Components/SessionDetailsPage/SessionDetailsPage';
-import HomeViewPage from './Components/HomeViewPage/HomeViewPage';
-import CardReviewPage from './Components/CardReviewPage/CardReviewPage';
+import CreateSessionPage from './components/CreateSessionPage/CreateSessionPage';
+import SessionDetailsPage from './components/SessionDetailsPage/SessionDetailsPage';
+import HomeViewPage from './components/HomeViewPage/HomeViewPage';
+import CardReviewPage from './components/CardReviewPage/CardReviewPage';
 
 function App() {
   return (

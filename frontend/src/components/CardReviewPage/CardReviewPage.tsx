@@ -1,14 +1,14 @@
-import { Actions } from '../../Store/Actions/Session.actions';
+import { Actions } from '../../store/actions/session.actions';
 import { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { useParams, useNavigate } from 'react-router-dom';
-import { CardData } from '../../Interfaces/CardData';
+import { CardData } from '../../interfaces/CardData';
 import {
   Props as DefaultProperties,
   defaultMapStateToProps,
   defaultMapDispatchToProps,
-} from '../../Interfaces/DefaultConnections';
-import { Session } from '../../Interfaces/SessionData';
+} from '../../interfaces/DefaultConnections';
+import { Session } from '../../interfaces/SessionData';
 import { CardReviewPageStyle } from './CardReviewPage.style';
 
 const CardReviewPage = (props: DefaultProperties) => {
@@ -60,7 +60,7 @@ const CardReviewPage = (props: DefaultProperties) => {
   return (
     <>
       <CardReviewPageStyle>
-        <h1>Session: {session.name}</h1>
+        <h1>session: {session.name}</h1>
         <img style={{ width: '100px', height: '100px' }} src={session.icon} />
         <h1>number of cards: {session.cards.length}</h1>
         <select
