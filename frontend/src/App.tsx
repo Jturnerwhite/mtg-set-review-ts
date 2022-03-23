@@ -8,12 +8,13 @@ import CardReviewPage from './Components/cardReviewPage/CardReviewPage';
 function App() {
   return (
     <Router>
-      <div className="App">
-        <nav>
-          <button>
-            <Link to="/">Home</Link>
-          </button>
-        </nav>
+      <header className="main-header">
+        <h1>MTG Card Review</h1>
+        <Link id="home-link" to="/">
+          Home
+        </Link>
+      </header>
+      <div>
         <Routes>
           <Route path="/" element={<HomeViewPage />} />
           <Route path="/sessionView" element={<CreateSessionPage />} />

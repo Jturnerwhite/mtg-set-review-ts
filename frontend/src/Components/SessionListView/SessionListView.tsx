@@ -23,22 +23,39 @@ const SessionListView = (props: { sessions: Array<Session>; onDelete: Function }
   return (
     <>
       <SessionListViewPageStyle>
-        {props.sessions &&
-          props.sessions.map((session: Session) => (
-            <div id="test" key={session.id}>
-              <Link to={`/about/${session.id}`}>
-                <h2>{session.name}</h2>
-              </Link>
-              <img style={{ width: '50px', height: '50px' }} src={session.icon} />
-              <ul>
-                <li>{session.cardSet.name}</li>
-                <li>
-                  {getRatedCards(session.cards)}/{session.cards.length} rated
-                </li>
-              </ul>
-              <button onClick={() => props.onDelete(session.id)}>Delete</button>
-            </div>
-          ))}
+        <div className="test">
+          {props.sessions &&
+            props.sessions.map((session: Session) => (
+              <div className="session-card" key={session.id}>
+                <Link className="session-link" to={`/about/${session.id}`}>
+                  <h1>{session.name}</h1>
+                  <img src={session.icon} />
+                </Link>
+                <div className="session-details">
+                  <p>
+                    <strong>Set:</strong> {session.cardSet.name}
+                    <br />
+                    <strong>Cards Reviewed:</strong> {getRatedCards(session.cards)}/
+                    {session.cards.length}
+                    <br />
+                    <strong>Created:</strong> {session.created}
+                    <br />
+                    <strong>Updated:</strong> {session.lastUpdate || 'n/a'}
+                  </p>
+                </div>
+                <div className="session-buttons">
+                  <button onClick={() => props.onDelete(session.id)}>Delete</button>
+                  <Link
+                    className="review-button"
+                    style={{ textDecoration: 'none' }}
+                    to={`/about/${session.id}`}
+                  >
+                    Review
+                  </Link>
+                </div>
+              </div>
+            ))}
+        </div>
       </SessionListViewPageStyle>
     </>
   );

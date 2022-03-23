@@ -8,6 +8,9 @@ import {
 import { CardData } from '../../Interfaces/CardData';
 import { Session } from '../../Interfaces/SessionData';
 import { SessionDetialsStyle } from './SessionDetialsPage.style';
+import { toSvg } from 'jdenticon';
+const svgString = toSvg('value', 100);
+console.log(svgString);
 
 const SessionDetailsPage = (props: DefaultProperties) => {
   let ratedCards = 0;
@@ -44,38 +47,52 @@ const SessionDetailsPage = (props: DefaultProperties) => {
   return (
     <>
       <SessionDetialsStyle>
-        {sessionState && (
-          <>
-            <h1>About: {sessionState.name}</h1>
-            <img style={{ width: '100px', height: '100px' }} src={sessionState.icon} />
-            <h2>Set: {sessionState.cardSet.name}</h2>
-            <h2>
-              Cards: {ratedCards}/{sessionState.cards.length} rated
-            </h2>
-            <p>Created: {sessionState.created}</p>
-            <p>
-              Updated: {sessionState.lastUpdate === undefined ? 'n/a' : sessionState.lastUpdate}
-            </p>
-            <div className="rating-container">
-              <div className="card-info">
-                {cardArray &&
-                  cardArray.map((card) => (
-                    <div id="test" key={card.id}>
-                      <h2>{card.cardName}</h2>
-                      <p>{card.rating === undefined ? 'no rating' : card.rating}</p>
-                    </div>
-                  ))}
+        <div className="details-card">
+          {sessionState && (
+            <>
+              <div className="details-card-hearder">
+                <div className="detials-jdenticon">
+                  <img style={{ width: '100px', height: '100px' }} src={sessionState.icon} />
+                </div>
+                <div className="details-card-info">
+                  <div className="details-session-name">
+                    <h1>{sessionState.name}</h1>
+                    <p>{sessionState.id}</p>
+                  </div>
+                  <div className="details-set-name">
+                    <img
+                      id="detials-small-icon"
+                      style={{ width: '50px', height: '50px' }}
+                      src={sessionState.icon}
+                    />
+                    <h2>{sessionState.cardSet.name}</h2>
+                  </div>
+                </div>
+              </div>
+              <hr className="hr" />
+              <div className="rating-container">
+                <div className="card-info-container">
+                  {cardArray &&
+                    cardArray.map((card) => (
+                      <div className="card-info" key={card.id}>
+                        <p id="card-name">{card.cardName}</p>
+                        <p id="card-rating">
+                          {card.rating === undefined ? 'no rating' : card.rating}
+                        </p>
+                      </div>
+                    ))}
+                </div>
               </div>
               <div>
                 {checkForRating && (
-                  <Link to={`/session/${sessionState.id}`}>
+                  <Link id="details-link" to={`/session/${sessionState.id}`}>
                     <h2>Continue Rating</h2>
                   </Link>
                 )}
               </div>
-            </div>
-          </>
-        )}
+            </>
+          )}
+        </div>
         {!sessionState && (
           <div className="rating-container">
             <p>session not found</p>

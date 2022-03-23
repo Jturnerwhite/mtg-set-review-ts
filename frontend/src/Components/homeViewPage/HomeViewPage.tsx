@@ -24,15 +24,12 @@ const HomeViewPage = (props: DefaultProperties) => {
   return (
     <>
       <HomeViewPageStyle>
-        <div className="rating-container">
-          <h1>Session List:</h1>
-          <div className="card-info">
-            <SessionListView sessions={localStateArray} onDelete={deleteSession} />
-          </div>
+        <div className="session-list-container">
+          <Link id="start-session-btn" to="/sessionView">
+            Start Session
+          </Link>
+          <SessionListView sessions={localStateArray} onDelete={deleteSession} />
           {!localStateArray && <p>No Sessions Created</p>}
-          <button>
-            <Link to="/sessionView">Start Session</Link>
-          </button>
         </div>
       </HomeViewPageStyle>
     </>

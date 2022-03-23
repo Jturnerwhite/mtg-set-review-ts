@@ -56,6 +56,7 @@ const CreateSessionPage = (props: DefaultProperties) => {
   async function getCards(endPoint: string): Promise<Array<CardData>> {
     let response = await fetch(endPoint).then((res) => res.json());
     let cards: Array<CardData> = response.data.map((card: any) => {
+      console.log(card);
       return {
         id: card.id,
         image: card.image_uris?.normal ?? '',
@@ -92,28 +93,45 @@ const CreateSessionPage = (props: DefaultProperties) => {
   return (
     <>
       <CreateSessionPageStyle>
-        <form id="sessionForm">
-          <label htmlFor="sessionName">Session Name:</label>
-          <input
-            type="text"
-            id="sessionName"
-            name="sessionName"
-            onChange={(event) => setName(event.target.value)}
-          ></input>
-          <select onChange={(event) => setCardId(parseInt(event.target.value))}>
-            {sets.map((set, index) => (
-              <option key={index} value={index}>
-                {set.name}
-              </option>
-            ))}
-          </select>
-        </form>
-        <button onClick={setSession} type="submit">
-          Submit
-        </button>
-        <button>
-          <Link to="/">Cancel</Link>
-        </button>
+        <div className="create-session-container">
+          <div className="create-session-fields">
+            <form>
+              <input
+                type="text"
+                id="sessionName"
+                name="sessionName"
+                onChange={(event) => setName(event.target.value)}
+                placeholder="Enter Session Name"
+              ></input>
+              <div className="session-list-container">
+                <h3>Select Set:</h3>
+                {sets &&
+                  sets.map((set, index) => (
+                    <>
+                      <div className="session-set">
+                        <input
+                          name="set"
+                          type="radio"
+                          id={set.id}
+                          value={index}
+                          onChange={(event) => setCardId(parseInt(event.target.value))}
+                        />
+                        <label htmlFor={set.id}>{set.name}</label>
+                      </div>
+                    </>
+                  ))}
+              </div>
+            </form>
+          </div>
+          <div>
+            <Link id="cancel-btn" to="/">
+              Cancel
+            </Link>
+            <button id="submit-btn" onClick={setSession} type="submit">
+              Submit
+            </button>
+          </div>
+        </div>
       </CreateSessionPageStyle>
     </>
   );
